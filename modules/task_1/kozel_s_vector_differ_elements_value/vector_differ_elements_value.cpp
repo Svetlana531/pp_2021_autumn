@@ -62,13 +62,11 @@ int paralleldifferElementsValue(const std::vector<int>& vector, const int size) 
             }
         }
     }
-    MPI_Scatterv(reinterpret_cast<const void*>(vector.data()), blockVector.data(), sdvig.data(),
-        MPI_INT, resultData.data(), block, MPI_INT, 0, MPI_COMM_WORLD);
+    MPI_Scatterv(reinterpret_cast<const void*>(vector.data()), blockVector.data(), sdvig.data(), MPI_INT, resultData.data(), block, MPI_INT, 0, MPI_COMM_WORLD);
 
     localMax = differElementsValue(resultData);
 
-    MPI_Reduce(reinterpret_cast<void*>(&localMax), reinterpret_cast<void*>(&globalMax),
-        1, MPI_INT, MPI_MAX, 0, MPI_COMM_WORLD);
+    MPI_Reduce(reinterpret_cast<void*>(&localMax), reinterpret_cast<void*>(&globalMax), 1, MPI_INT, MPI_MAX, 0, MPI_COMM_WORLD);
 
     return globalMax;
 }
